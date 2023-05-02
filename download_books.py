@@ -65,10 +65,10 @@ def parse_book_page(html):
 
 def main():
     parser=argparse.ArgumentParser(description='Скачивает книги из заданного промежутка с сайта tululu.org')
-    parser.add_argument('--start_id', help='Номер начала выборки',default=20)
-    parser.add_argument('--end_id', help='Номер конца выборки',default=30)    
+    parser.add_argument('--start_id', help='Номер начала выборки',default=1)
+    parser.add_argument('--end_id', help='Номер конца выборки',default=2)    
     args=parser.parse_args()       
-    for book_id in range(args.start_id, args.end_id):
+    for book_id in range(int(args.start_id), int(args.end_id)):
         try:
             url = f'https://tululu.org/txt.php?id={book_id}'
             response = requests.get(url)
