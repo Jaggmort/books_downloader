@@ -40,7 +40,7 @@ def download_image(url, folder='Images/'):
         file.write(response.content)
 
 
-def get_name(url):
+def get_book_information(url):
     title = ''
     image_url = ''
     response = requests.get(url)
@@ -53,20 +53,22 @@ def get_name(url):
         book_info = content_text.split('::')
         title = book_info[0].rstrip(' ').lstrip(' ').strip('\xa0')
 
-        image = soup.find('div', {'class':'bookimage'}).find('a')
+        image_soup = soup.find('div', {'class':'bookimage'}).find('a')
         url_netlock = urlparse(url).netloc
         prepared_url = f'https://{url_netlock}'
-        image_url = urljoin(prepared_url, image.img['src'])
+        image_url = urljoin(prepared_url, image_soup.img['src'])
 
         comments_soup = soup.find_all('div', {'class':'texts'})
         comments = []
         for comment_soup in comments_soup:
             comments.append(comment_soup.find('span', {'class':'black'}).text)
+        
+        genre_soup = soup.find('span', {'class':'d_book'}).text
             
     except requests.HTTPError:
         pass
 
-    return title, image_url, comments
+    return title, image_url, comments, genre_soup
 
 
 def main():
@@ -79,13 +81,14 @@ def main():
             response.raise_for_status()
             check_for_redirect(response.history)                                 
             url_title = f'https://tululu.org/b{book_id + 1}/'
-            title, image_url, comments = get_name(url_title)     
+            title, image_url, comments, genre = get_book_information(url_title)     
             #download_txt(url, f'{book_id +1}. {title}')
             #download_image(image_url)
-            print(f'Заголовок: {title}', '\n')
-            for comment in comments:
-                print(comment)
+            print(f'Заголовок: {title}')
+            #for comment in comments:
+            #    print(comment)
             #print('image_url', '\n')
+            print(genre, '\n')
         except requests.HTTPError:
             pass
 
