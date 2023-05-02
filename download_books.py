@@ -3,7 +3,7 @@ import pathlib
 from bs4 import BeautifulSoup
 from pathlib import Path
 from pathvalidate import sanitize_filename
-
+from urllib.parse import urlparse, urljoin
 
 def create_directory(directory):
     current_directory=f'{pathlib.Path().resolve()}\{directory}'
@@ -30,30 +30,54 @@ def download_txt(url, filename, folder='books/'):
     return f'{folder}{correct_filename}.txt'
 
 
-def get_name(url):
-    title = ''
+def download_image(url, folder='Images/'):
+    create_directory(folder)
     response = requests.get(url)
     response.raise_for_status()
-    try: 
+    filename = url.split("/")[-1]
+    path = f'{folder}\{filename}'
+    with open(path, 'wb') as file:
+        file.write(response.content)
+
+
+def get_name(url):
+    title = ''
+    image_url = ''
+    response = requests.get(url)
+    response.raise_for_status()
+    try:
+        check_for_redirect(response.history)
         soup = BeautifulSoup(response.text, 'lxml')              
         content = soup.find('table').find('div', id = 'content').find('h1')
         content_text = content.text
         book_info = content_text.split('::')
         title = book_info[0].rstrip(' ').lstrip(' ').strip('\xa0')
-    except AttributeError:
+        image = soup.find('div', {'class':'bookimage'}).find('a')
+        url_netlock = urlparse(url).netloc
+        prepared_url = f'https://{url_netlock}'
+        image_url = urljoin(prepared_url, image.img['src'])
+    except requests.HTTPError:
         pass
-    return title
+
+    return title, image_url
 
 
 def main():
     directory = 'books'
     create_directory(directory)
     for book_id in range(10):
-        url_title = f'https://tululu.org/b{book_id + 1}/'
-        title = get_name(url_title)
-        url = f'https://tululu.org/txt.php?id={book_id + 1}'     
-        download_txt(url, f'{book_id +1}. {title}')
-
+        try:
+            url = f'https://tululu.org/txt.php?id={book_id + 1}'
+            response = requests.get(url)
+            response.raise_for_status()
+            check_for_redirect(response.history)                                 
+            url_title = f'https://tululu.org/b{book_id + 1}/'
+            title, image_url = get_name(url_title)     
+            #download_txt(url, f'{book_id +1}. {title}')
+            download_image(image_url)
+            #print(f'Заголовок: {title}', '\n', image_url, '\n')
+        except requests.HTTPError:
+            pass
 
 if __name__ == '__main__':
     main()

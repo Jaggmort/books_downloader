@@ -76,3 +76,4 @@ venv/
 # Local 
 .env
 books
+/Images
