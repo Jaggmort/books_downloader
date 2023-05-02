@@ -40,6 +40,27 @@ def download_image(url, folder='Images/'):
         file.write(response.content)
 
 
+def parse_book_page(html):
+    soup = BeautifulSoup(html, 'lxml')              
+    content = soup.find('table').find('div', id = 'content').find('h1')
+    content_text = content.text
+    book_info = content_text.split('::')
+    title = book_info[0].rstrip(' ').lstrip(' ').strip('\xa0')
+
+    image_soup = soup.find('div', {'class':'bookimage'}).find('a')
+    prepared_url = 'https://tululu.org/'
+    image_url = urljoin(prepared_url, image_soup.img['src'])
+
+    comments_soup = soup.find_all('div', {'class':'texts'})
+    comments = []
+    for comment_soup in comments_soup:
+        comments.append(comment_soup.find('span', {'class':'black'}).text)
+    
+    genre_soup = soup.find('span', {'class':'d_book'}).text
+
+    return title, image_url, comments, genre_soup
+
+
 def get_book_information(url):
     title = ''
     image_url = ''
