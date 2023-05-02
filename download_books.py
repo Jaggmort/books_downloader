@@ -52,14 +52,21 @@ def get_name(url):
         content_text = content.text
         book_info = content_text.split('::')
         title = book_info[0].rstrip(' ').lstrip(' ').strip('\xa0')
+
         image = soup.find('div', {'class':'bookimage'}).find('a')
         url_netlock = urlparse(url).netloc
         prepared_url = f'https://{url_netlock}'
         image_url = urljoin(prepared_url, image.img['src'])
+
+        comments_soup = soup.find_all('div', {'class':'texts'})
+        comments = []
+        for comment_soup in comments_soup:
+            comments.append(comment_soup.find('span', {'class':'black'}).text)
+            
     except requests.HTTPError:
         pass
 
-    return title, image_url
+    return title, image_url, comments
 
 
 def main():
@@ -72,10 +79,13 @@ def main():
             response.raise_for_status()
             check_for_redirect(response.history)                                 
             url_title = f'https://tululu.org/b{book_id + 1}/'
-            title, image_url = get_name(url_title)     
+            title, image_url, comments = get_name(url_title)     
             #download_txt(url, f'{book_id +1}. {title}')
-            download_image(image_url)
-            #print(f'Заголовок: {title}', '\n', image_url, '\n')
+            #download_image(image_url)
+            print(f'Заголовок: {title}', '\n')
+            for comment in comments:
+                print(comment)
+            #print('image_url', '\n')
         except requests.HTTPError:
             pass
 
