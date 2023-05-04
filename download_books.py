@@ -23,7 +23,7 @@ def download_txt(url, filename, folder='books/'):
     response = requests.get(url)
     response.raise_for_status()
     try:
-        check_for_redirect(response.history)    
+        check_for_redirect(response.history)
         filename = f'{folder}\{correct_filename}.txt'
         with open(filename, 'wb') as file:
             file.write(response.content)
@@ -67,9 +67,9 @@ def parse_book_page(html):
 
 def main():
     parser = argparse.ArgumentParser(description='Скачивает'
-                                                 'книги из заданного'
-                                                 'промежутка с сайта'
-                                                 'tululu.org')
+                                     'книги из заданного промежутка с сайта'
+                                     'tululu.org'
+                                     )
     parser.add_argument('--start_id', help='Номер начала выборки', default=1)
     parser.add_argument('--end_id', help='Номер конца выборки', default=2)
     args = parser.parse_args()
