@@ -97,10 +97,10 @@ def main():
             page_session.mount('https://', HTTPAdapter(max_retries=retries))
             book_page_response = page_session.get(book_page_url)
             book_page_response.raise_for_status
-            check_for_redirect(book_page_response.history)
             book_page_parsed_set = parse_book_page(
                 book_page_response.text, url
             )
+            print(3)
             title, author, image_url, comments, genre = book_page_parsed_set
             print(f'Заголовок: {title}')
             print(f'Автор: {author}', '\n')
