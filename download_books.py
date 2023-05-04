@@ -6,6 +6,7 @@ from pathvalidate import sanitize_filename
 from urllib.parse import urljoin
 import argparse
 import logging
+from requests.adapters import HTTPAdapter, Retry
 
 
 def create_directory(directory):
@@ -85,11 +86,19 @@ def main():
         try:
             params = {'id': f'{book_id}'}
             url = 'https://tululu.org/txt.php'
-            response = requests.get(url, params=params)
+            session = requests.Session()
+            retries = Retry(total=5,
+                            backoff_factor=1,
+                            status_forcelist=[502, 503, 504]
+                            )
+            session.mount('https://', HTTPAdapter(max_retries=retries))
+            response = session.get(url, params=params)
             response.raise_for_status()
             check_for_redirect(response.history)
             book_page_url = f'https://tululu.org/b{book_id}'
-            book_page_response = requests.get(book_page_url)
+            page_session = requests.Session()
+            page_session.mount('https://', HTTPAdapter(max_retries=retries))
+            book_page_response = page_session.get(book_page_url)
             book_page_response.raise_for_status
             check_for_redirect(book_page_response.history)
             book_page_parsed_set = parse_book_page(
