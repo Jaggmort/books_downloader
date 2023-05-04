@@ -100,7 +100,6 @@ def main():
             book_page_parsed_set = parse_book_page(
                 book_page_response.text, url
             )
-            print(3)
             title, author, image_url, comments, genre = book_page_parsed_set
             print(f'Заголовок: {title}')
             print(f'Автор: {author}', '\n')
