@@ -5,6 +5,7 @@ from pathlib import Path
 from pathvalidate import sanitize_filename
 from urllib.parse import urljoin
 import argparse
+import logging
 
 
 def create_directory(directory):
@@ -98,7 +99,7 @@ def main():
             print(f'Заголовок: {title}')
             print(f'Автор: {author}', '\n')
         except requests.HTTPError:
-            pass
+            logging.info('Txt file is absent')
 
 
 if __name__ == '__main__':
