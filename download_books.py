@@ -95,13 +95,7 @@ def main():
                 book_page_response.text, url
             )
             title, author, image_url, comments, genre = book_page_parsed_set
-            # download_txt(url, f'{book_id +1}. {title}')
-            # download_image(image_url)
             print(f'Заголовок: {title}')
-            # for comment in comments:
-            #     print(comment)
-            # print('image_url', '\n')
-            # print(genre, '\n')
             print(f'Автор: {author}', '\n')
         except requests.HTTPError:
             pass
