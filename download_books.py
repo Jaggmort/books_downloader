@@ -5,7 +5,6 @@ from pathlib import Path
 from pathvalidate import sanitize_filename
 from urllib.parse import urljoin
 import argparse
-import logging
 from requests.adapters import HTTPAdapter, Retry
 import os
 
@@ -25,15 +24,12 @@ def download_txt(url, filename, folder='books/'):
     correct_filename = sanitize_filename(filename)
     response = requests.get(url)
     response.raise_for_status()
-    try:
-        check_for_redirect(response.history)
-        filename = os.path.join(folder, correct_filename)
-        with open(filename, 'wb') as file:
-            file.write(response.content)
-    except requests.HTTPError:
-        print('wrong url')
-
-    return f'{folder}{correct_filename}.txt'
+    if check_for_redirect(response.history):
+        raise requests.HTTPError
+    filename = os.path.join(folder, correct_filename)
+    with open(filename, 'wb') as file:
+        file.write(response.content)
+    return filename
 
 
 def download_image(url, folder='Images/'):
@@ -109,7 +105,7 @@ def main():
             print(f'Заголовок: {title}')
             print(f'Автор: {author}', '\n')
         except requests.HTTPError:
-            logging.info('Txt file is absent')
+            print('Txt file is absent')
 
 
 if __name__ == '__main__':
