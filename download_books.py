@@ -7,10 +7,11 @@ from urllib.parse import urljoin
 import argparse
 import logging
 from requests.adapters import HTTPAdapter, Retry
+import os
 
 
 def create_directory(directory):
-    current_directory = f'{pathlib.Path().resolve()}\{directory}'
+    current_directory = os.path.join(pathlib.Path().resolve(), directory)
     Path(current_directory).mkdir(parents=True, exist_ok=True)
 
 
@@ -26,7 +27,7 @@ def download_txt(url, filename, folder='books/'):
     response.raise_for_status()
     try:
         check_for_redirect(response.history)
-        filename = f'{folder}\{correct_filename}.txt'
+        filename = os.path.join(folder, correct_filename)
         with open(filename, 'wb') as file:
             file.write(response.content)
     except requests.HTTPError:
@@ -40,7 +41,7 @@ def download_image(url, folder='Images/'):
     response = requests.get(url)
     response.raise_for_status()
     filename = url.split("/")[-1]
-    path = f'{folder}\{filename}'
+    path = os.path.join(folder, filename)
     with open(path, 'wb') as file:
         file.write(response.content)
 
