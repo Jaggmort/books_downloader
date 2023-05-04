@@ -88,12 +88,12 @@ def main():
             response = requests.get(url, params=params)
             response.raise_for_status()
             check_for_redirect(response.history)
-            url_book_page = f'https://tululu.org/b{book_id}/'
-            response_book_page = requests.get(url_book_page)
-            response_book_page.raise_for_status
-            check_for_redirect(response_book_page.history)
-            parsed_book_page = parse_book_page(response_book_page.text)
-            title, author, image_url, comments, genre = parsed_book_page
+            book_page_url = f'https://tululu.org/b{book_id}/'
+            book_page_response = requests.get(book_page_url)
+            book_page_response.raise_for_status
+            check_for_redirect(book_page_response.history)
+            book_page_parsed_set = parse_book_page(book_page_response.text)
+            title, author, image_url, comments, genre = book_page_parsed_set
             # download_txt(url, f'{book_id +1}. {title}')
             # download_image(image_url)
             print(f'Заголовок: {title}')
