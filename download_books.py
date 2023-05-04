@@ -83,8 +83,9 @@ def main():
     args = parser.parse_args()
     for book_id in range(args.start_id, args.end_id):
         try:
-            url = f'https://tululu.org/txt.php?id={book_id}'
-            response = requests.get(url)
+            params = {'id': f'{book_id}'}
+            url = 'https://tululu.org/txt.php'
+            response = requests.get(url, params=params)
             response.raise_for_status()
             check_for_redirect(response.history)
             url_book_info = f'https://tululu.org/b{book_id}/'
