@@ -47,9 +47,9 @@ def parse_book_page(html):
     soup = BeautifulSoup(html, 'lxml')
     content = soup.find('table').find('div', id='content').find('h1')
     content_text = content.text
-    book_info = content_text.split('::')
-    title = book_info[0].rstrip(' ').lstrip(' ').strip('\xa0')
-    author = book_info[1].rstrip(' ').lstrip(' ').strip('\xa0')
+    book_header = content_text.split('::')
+    title = book_header[0].rstrip(' ').lstrip(' ').strip('\xa0')
+    author = book_header[1].rstrip(' ').lstrip(' ').strip('\xa0')
 
     image_soup = soup.find('div', {'class': 'bookimage'}).find('a')
     prepared_url = 'https://tululu.org/'
@@ -88,12 +88,12 @@ def main():
             response = requests.get(url, params=params)
             response.raise_for_status()
             check_for_redirect(response.history)
-            url_book_info = f'https://tululu.org/b{book_id}/'
-            response_book_info = requests.get(url_book_info)
-            response_book_info.raise_for_status
-            check_for_redirect(response_book_info.history)
-            parse_result = parse_book_page(response_book_info.text)
-            title, author, image_url, comments, genre = parse_result
+            url_book_page = f'https://tululu.org/b{book_id}/'
+            response_book_page = requests.get(url_book_page)
+            response_book_page.raise_for_status
+            check_for_redirect(response_book_page.history)
+            parse_book_page = parse_book_page(response_book_page.text)
+            title, author, image_url, comments, genre = parse_book_page
             # download_txt(url, f'{book_id +1}. {title}')
             # download_image(image_url)
             print(f'Заголовок: {title}')
