@@ -92,8 +92,8 @@ def main():
             response_book_page = requests.get(url_book_page)
             response_book_page.raise_for_status
             check_for_redirect(response_book_page.history)
-            parse_book_page = parse_book_page(response_book_page.text)
-            title, author, image_url, comments, genre = parse_book_page
+            parsed_book_page = parse_book_page(response_book_page.text)
+            title, author, image_url, comments, genre = parsed_book_page
             # download_txt(url, f'{book_id +1}. {title}')
             # download_image(image_url)
             print(f'Заголовок: {title}')
