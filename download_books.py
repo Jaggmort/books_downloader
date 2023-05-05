@@ -19,16 +19,18 @@ def check_for_redirect(response_history):
         raise requests.HTTPError
 
 
-def download_txt(url, filename, folder='books/'):
+def download_txt(url, params, filename, folder='books/'):
     create_directory(folder)
     correct_filename = sanitize_filename(filename)
-    response = requests.get(url)
+    response = requests.get(url, params=params)
     response.raise_for_status()
-    if check_for_redirect(response.history):
+    try:
+        check_for_redirect(response.history)
+        filename = os.path.join(folder, correct_filename)
+        with open(filename, 'wb') as file:
+            file.write(response.content)
+    except requests.HTTPError:
         raise requests.HTTPError
-    filename = os.path.join(folder, correct_filename)
-    with open(filename, 'wb') as file:
-        file.write(response.content)
     return filename
 
 
@@ -94,15 +96,18 @@ def main():
             response = session.get(url, params=params)
             response.raise_for_status()
             check_for_redirect(response.history)
-            book_page_url = f'https://tululu.org/b{book_id}'
+            book_page_url = f'https://tululu.org/b{book_id}/'
             page_session = requests.Session()
             page_session.mount('https://', HTTPAdapter(max_retries=retries))
             book_page_response = page_session.get(book_page_url)
             book_page_response.raise_for_status()
+            check_for_redirect(book_page_response.history)
             book_page_parsed_set = parse_book_page(
                 book_page_response.text, url
             )
             title, author, image_url, comments, genre = book_page_parsed_set
+            download_txt(url, params, f'{book_id}. {title}')
+            download_image(image_url)
             print(f'Заголовок: {title}')
             print(f'Автор: {author}', '\n')
         except requests.HTTPError:
