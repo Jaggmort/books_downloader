@@ -102,10 +102,10 @@ def main():
             book_page_response = page_session.get(book_page_url)
             book_page_response.raise_for_status()
             check_for_redirect(book_page_response.history)
-            book_page_parsed_set = parse_book_page(
+            book_page_parsed = parse_book_page(
                 book_page_response.text, url
             )
-            title, author, image_url, comments, genre = book_page_parsed_set
+            title, author, image_url, comments, genre = book_page_parsed
             download_txt(url, params, f'{book_id}. {title}')
             download_image(image_url)
             print(f'Заголовок: {title}')
