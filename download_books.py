@@ -98,7 +98,7 @@ def main():
             page_session = requests.Session()
             page_session.mount('https://', HTTPAdapter(max_retries=retries))
             book_page_response = page_session.get(book_page_url)
-            book_page_response.raise_for_status
+            book_page_response.raise_for_status()
             book_page_parsed_set = parse_book_page(
                 book_page_response.text, url
             )
