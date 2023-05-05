@@ -64,20 +64,22 @@ def parse_book_page(html, url):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Скачивает'
-                                     'книги из заданного промежутка с сайта'
-                                     'tululu.org'
-                                     )
-    parser.add_argument('--start_id',
-                        type=int,
-                        help='Номер начала выборки',
-                        default=1,
-                        )
-    parser.add_argument('--end_id',
-                        type=int,
-                        help='Номер конца выборки',
-                        default=2
-                        )
+    parser = argparse.ArgumentParser(
+        description='Скачивает книги из заданного промежутка'
+        'с сайта tululu.org'
+    )
+    parser.add_argument(
+        '--start_id',
+        type=int,
+        help='Номер начала выборки',
+        default=1,
+    )
+    parser.add_argument(
+        '--end_id',
+        type=int,
+        help='Номер конца выборки',
+        default=2,
+    )
     args = parser.parse_args()
     for book_id in range(args.start_id, args.end_id):
         try:
