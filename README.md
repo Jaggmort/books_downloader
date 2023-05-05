@@ -17,4 +17,4 @@ python download_books.py --start_id 20 --end_id 30
 ```
 
 ### Project Goals ###
-The code is written for educational purposes on online-course for web-developers dvmn.org.
+The code is written for educational purposes on online-course for web-developers [dvmn.org](dvmn.org).
