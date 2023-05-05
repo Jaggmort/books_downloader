@@ -24,13 +24,9 @@ def download_txt(url, params, filename, folder='books/'):
     correct_filename = sanitize_filename(filename)
     response = requests.get(url, params=params)
     response.raise_for_status()
-    try:
-        check_for_redirect(response.history)
-        filename = os.path.join(folder, correct_filename)
-        with open(filename, 'wb') as file:
-            file.write(response.content)
-    except requests.HTTPError:
-        raise requests.HTTPError
+    filename = os.path.join(folder, correct_filename)
+    with open(filename, 'wb') as file:
+        file.write(response.content)
     return filename
 
 
