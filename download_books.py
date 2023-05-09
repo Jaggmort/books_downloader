@@ -93,9 +93,7 @@ def main():
             response.raise_for_status()
             check_for_redirect(response.history)
             book_page_url = f'https://tululu.org/b{book_id}/'
-            page_session = requests.Session()
-            page_session.mount('https://', HTTPAdapter(max_retries=retries))
-            book_page_response = page_session.get(book_page_url)
+            book_page_response = session.get(book_page_url)
             book_page_response.raise_for_status()
             check_for_redirect(book_page_response.history)
             book_page_parsed = parse_book_page(
