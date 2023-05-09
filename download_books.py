@@ -82,8 +82,6 @@ def main():
     args = parser.parse_args()
     for book_id in range(args.start_id, args.end_id):
         try:
-            params = {'id': f'{book_id}'}
-            url = 'https://tululu.org/txt.php'
             session = requests.Session()
             retries = Retry(
                 total=5,
@@ -91,19 +89,25 @@ def main():
                 status_forcelist=[400, 500, 502, 503, 504],
             )
             session.mount('https://', HTTPAdapter(max_retries=retries))
+
+            params = {'id': f'{book_id}'}
+            url = 'https://tululu.org/txt.php'
             response = session.get(url, params=params)
             response.raise_for_status()
             check_for_redirect(response.history)
+
             book_page_url = f'https://tululu.org/b{book_id}/'
             book_page_response = session.get(book_page_url)
             book_page_response.raise_for_status()
             check_for_redirect(book_page_response.history)
+
             book_page_parsed = parse_book_page(
                 book_page_response.text, url
             )
             title, author, image_url, comments, genre = book_page_parsed
             download_txt(url, params, f'{book_id}. {title}')
             download_image(image_url)
+
             print(f'Заголовок: {title}')
             print(f'Автор: {author}', '\n')
         except requests.HTTPError:
