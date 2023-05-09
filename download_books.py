@@ -85,10 +85,11 @@ def main():
             params = {'id': f'{book_id}'}
             url = 'https://tululu.org/txt.php'
             session = requests.Session()
-            retries = Retry(total=5,
-                            backoff_factor=1,
-                            status_forcelist=[400, 500, 502, 503, 504]
-                            )
+            retries = Retry(
+                total=5,
+                backoff_factor=1,
+                status_forcelist=[400, 500, 502, 503, 504],
+            )
             session.mount('https://', HTTPAdapter(max_retries=retries))
             response = session.get(url, params=params)
             response.raise_for_status()
