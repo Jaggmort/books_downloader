@@ -7,6 +7,7 @@ from urllib.parse import urljoin
 import argparse
 from requests.adapters import HTTPAdapter, Retry
 import os
+import sys
 
 
 def create_directory(directory):
@@ -86,7 +87,7 @@ def main():
             session = requests.Session()
             retries = Retry(total=5,
                             backoff_factor=1,
-                            status_forcelist=[502, 503, 504]
+                            status_forcelist=[400, 500, 502, 503, 504]
                             )
             session.mount('https://', HTTPAdapter(max_retries=retries))
             response = session.get(url, params=params)
@@ -105,7 +106,9 @@ def main():
             print(f'Заголовок: {title}')
             print(f'Автор: {author}', '\n')
         except requests.HTTPError:
-            print('Txt file is absent')
+            print('Txt file is absent', file=sys.stderr)
+        except requests.ConnectionError:
+            print("Connection error", file=sys.stderr)
 
 
 if __name__ == '__main__':
