@@ -80,16 +80,17 @@ def main():
         default=2,
     )
     args = parser.parse_args()
+
+    session = requests.Session()
+    retries = Retry(
+        total=5,
+        backoff_factor=1,
+        status_forcelist=[400, 500, 502, 503, 504],
+    )
+    session.mount('https://', HTTPAdapter(max_retries=retries))
+
     for book_id in range(args.start_id, args.end_id):
         try:
-            session = requests.Session()
-            retries = Retry(
-                total=5,
-                backoff_factor=1,
-                status_forcelist=[400, 500, 502, 503, 504],
-            )
-            session.mount('https://', HTTPAdapter(max_retries=retries))
-
             params = {'id': f'{book_id}'}
             url = 'https://tululu.org/txt.php'
             response = session.get(url, params=params)
