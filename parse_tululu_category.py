@@ -6,9 +6,28 @@ from download_books import create_directory, check_for_redirect, parse_book_page
 from download_books import download_txt, download_image
 import sys
 import json
+import argparse
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description='Скачивает книги по научной фантастике с заданных страниц'
+        'с сайта tululu.org'
+    )
+    parser.add_argument(
+        '--start_page',
+        type=int,
+        help='Номер первой страницы для скачивания',
+        default=1,
+    )
+    parser.add_argument(
+        '--end_page',
+        type=int,
+        help='Номер последней страницы для скачивания',
+        default=2,
+    )
+    args = parser.parse_args()
+
     session = requests.Session()
     retries = Retry(
         total=5,
@@ -16,7 +35,7 @@ def main():
         status_forcelist=[400, 500, 502, 503, 504],
     )
     session.mount('https://', HTTPAdapter(max_retries=retries))
-    for i in range(1, 4):
+    for i in range(args.start_page, args.end_page):
         genre_url = f'https://tululu.org/l55/{i}'
         response = session.get(genre_url)
         response.raise_for_status()
@@ -24,7 +43,7 @@ def main():
         tululu_books = soup.select_one('#content').select('div.bookimage')
         for tululu_book in tululu_books:
             try:
-                book_id = tululu_book.a["href"][2:-1]           
+                book_id = tululu_book.a["href"][2:-1]     
                 params = {'id': f'{book_id}'}
                 txt_url = 'https://tululu.org/txt.php'
                 response = session.get(txt_url, params=params)
