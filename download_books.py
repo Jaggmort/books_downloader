@@ -20,9 +20,10 @@ def check_for_redirect(response_history):
         raise requests.HTTPError
 
 
-def download_txt(url, params, filename, folder='books/'):
+def download_txt(url, params, filename, folder='Books/'):
     create_directory(folder)
     correct_filename = sanitize_filename(filename)
+    print(filename)
     response = requests.get(url, params=params)
     response.raise_for_status()
     filename = os.path.join(folder, correct_filename)
@@ -107,7 +108,7 @@ def main():
                 book_page_response.text, url
             )
             title, author, image_url, comments, genres = book_page_parsed
-            download_txt(url, params, f'{book_id}. {title}')
+            download_txt(url, params, f'{book_id}. {title}.txt')
             download_image(image_url)
 
             print(f'Заголовок: {title}')
