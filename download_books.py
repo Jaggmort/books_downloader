@@ -43,21 +43,20 @@ def download_image(url, folder='Images/'):
 
 def parse_book_page(html, url):
     soup = BeautifulSoup(html, 'lxml')
-    content = soup.find('table').find('div', id='content').find('h1')
-    content_text = content.text
+    content_text = soup.select_one('table #content h1').text
     book_header = content_text.split('::')
     title = book_header[0].rstrip(' ').lstrip(' ').strip('\xa0')
     author = book_header[1].rstrip(' ').lstrip(' ').strip('\xa0')
 
-    image_soup = soup.find('div', {'class': 'bookimage'}).find('a')
+    image_soup = soup.select_one('div.bookimage a')
     image_url = urljoin(url, image_soup.img['src'])
 
-    comments_soup = soup.find_all('div', {'class': 'texts'})
+    comments_soup = soup.select('div.texts')
     comments = []
     for comment_soup in comments_soup:
-        comments.append(comment_soup.find('span', {'class': 'black'}).text)
+        comments.append(comment_soup.select_one('span.black').text)
 
-    genres_soup = soup.find('span', {'class': 'd_book'}).findAll('a')
+    genres_soup = soup.select_one('span.d_book').select('a')
     genres = []
     for genre_soup in genres_soup:
         genres.append(genre_soup.text)
@@ -108,8 +107,8 @@ def main():
                 book_page_response.text, url
             )
             title, author, image_url, comments, genres = book_page_parsed
-            #download_txt(url, params, f'{book_id}. {title}')
-            #download_image(image_url)
+            download_txt(url, params, f'{book_id}. {title}')
+            download_image(image_url)
 
             print(f'Заголовок: {title}')
             print(f'Автор: {author}', '\n')

@@ -21,7 +21,7 @@ def main():
         response = session.get(genre_url)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'lxml')
-        tululu_books = soup.find('div', id='content').findAll('div', {'class': 'bookimage'})
+        tululu_books = soup.select_one('#content').select('div.bookimage')
         for tululu_book in tululu_books:
             try:
                 book_id = tululu_book.a["href"][2:-1]           
