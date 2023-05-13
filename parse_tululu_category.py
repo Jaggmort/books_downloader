@@ -16,7 +16,7 @@ def main():
         status_forcelist=[400, 500, 502, 503, 504],
     )
     session.mount('https://', HTTPAdapter(max_retries=retries))
-    for i in range(1, 2):
+    for i in range(1, 4):
         genre_url = f'https://tululu.org/l55/{i}'
         response = session.get(genre_url)
         response.raise_for_status()
@@ -46,8 +46,8 @@ def main():
                 books = {
                     'title': title,
                     'author': author,
-                    'img_src': f'images\{book_id}',
-                    'book_path': f'books\{title}.txt',
+                    'img_src': f'images/{book_id}.jpg',
+                    'book_path': f'books/{title.strip()}.txt',
                     'comments': [comments],
                     'geners': [genres]
                 }
