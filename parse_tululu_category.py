@@ -2,8 +2,9 @@ import requests
 from requests.adapters import HTTPAdapter, Retry
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
-from download_books import create_directory, check_for_redirect, parse_book_page
+from download_books import create_directory, check_for_redirect
 from download_books import download_txt, download_image
+from download_books import parse_book_page
 import sys
 import json
 import argparse
@@ -49,7 +50,7 @@ def main():
     parser.add_argument(
         '--json_path',
         help='Путь к json-файлу с описанием книг',
-    )                
+    )
     args = parser.parse_args()
 
     session = requests.Session()
@@ -68,14 +69,14 @@ def main():
         tululu_books = soup.select_one('#content').select('div.bookimage')
         for tululu_book in tululu_books:
             try:
-                book_id = tululu_book.a["href"][2:-1]     
+                book_id = tululu_book.a["href"][2:-1]
                 params = {'id': f'{book_id}'}
                 txt_url = 'https://tululu.org/txt.php'
                 response = session.get(txt_url, params=params)
                 response.raise_for_status()
-                check_for_redirect(response.history)            
+                check_for_redirect(response.history)
 
-                book_page_url = urljoin(genre_url, tululu_book.a['href']) 
+                book_page_url = urljoin(genre_url, tululu_book.a['href'])
                 book_page_response = session.get(book_page_url)
                 book_page_response.raise_for_status()
                 check_for_redirect(book_page_response.history)
@@ -85,8 +86,12 @@ def main():
                 )
                 title, author, image_url, comments, genres = book_page_parsed
                 if not args.skip_txt:
-                    download_txt(txt_url, params, f'{book_id}. {title}.txt', os.path.join(folder, 'Books'))
-                if not args.skip_imgs:                    
+                    download_txt(txt_url,
+                                 params,
+                                 f'{book_id}. {title}.txt',
+                                 os.path.join(folder, 'Books')
+                                 )
+                if not args.skip_imgs:
                     download_image(image_url, os.path.join(folder, 'Images'))
 
                 books = {
@@ -101,13 +106,16 @@ def main():
                 if args.json_path:
                     json_path = os.path.join(args.json_path)
                 create_directory(json_path)
-                with open(f'{json_path}/books.json', 'a', encoding='utf8') as my_file:
+                with open(f'{json_path}/books.json',
+                          'a',
+                          encoding='utf8'
+                          ) as my_file:
                     json.dump(books, my_file, ensure_ascii=False)
 
             except requests.HTTPError:
                 print('Txt file is absent', file=sys.stderr)
             except requests.ConnectionError:
-                print("Connection error", file=sys.stderr)                
+                print("Connection error", file=sys.stderr)
 
 
 if __name__ == '__main__':
