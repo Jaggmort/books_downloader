@@ -57,9 +57,11 @@ def parse_book_page(html, url):
     for comment_soup in comments_soup:
         comments.append(comment_soup.find('span', {'class': 'black'}).text)
 
-    genre = soup.find('span', {'class': 'd_book'}).text
-
-    return title, author, image_url, comments, genre
+    genres_soup = soup.find('span', {'class': 'd_book'}).findAll('a')
+    genres = []
+    for genre_soup in genres_soup:
+        genres.append(genre_soup.text)
+    return title, author, image_url, comments, genres
 
 
 def main():
@@ -105,9 +107,9 @@ def main():
             book_page_parsed = parse_book_page(
                 book_page_response.text, url
             )
-            title, author, image_url, comments, genre = book_page_parsed
-            download_txt(url, params, f'{book_id}. {title}')
-            download_image(image_url)
+            title, author, image_url, comments, genres = book_page_parsed
+            #download_txt(url, params, f'{book_id}. {title}')
+            #download_image(image_url)
 
             print(f'Заголовок: {title}')
             print(f'Автор: {author}', '\n')
