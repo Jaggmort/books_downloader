@@ -1,16 +1,18 @@
-import requests
-from requests.adapters import HTTPAdapter, Retry
-from bs4 import BeautifulSoup
+import argparse
+import json
+import os
+import pathlib
+import sys
+from pathlib import Path
 from urllib.parse import urljoin
+
+import requests
+from bs4 import BeautifulSoup
+from requests.adapters import HTTPAdapter, Retry
+
 from download_books import create_directory, check_for_redirect
 from download_books import download_txt, download_image
 from download_books import parse_book_page
-import sys
-import json
-import argparse
-from pathlib import Path
-import pathlib
-import os
 
 
 def main():

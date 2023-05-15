@@ -1,13 +1,14 @@
-import requests
-import pathlib
-from bs4 import BeautifulSoup
-from pathlib import Path
-from pathvalidate import sanitize_filename
-from urllib.parse import urljoin
 import argparse
-from requests.adapters import HTTPAdapter, Retry
 import os
+import pathlib
 import sys
+from pathlib import Path
+from urllib.parse import urljoin
+
+import requests
+from bs4 import BeautifulSoup
+from pathvalidate import sanitize_filename
+from requests.adapters import HTTPAdapter, Retry
 
 
 def create_directory(directory):
