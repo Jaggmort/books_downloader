@@ -55,7 +55,7 @@ def main():
 
     session = requests.Session()
     retries = Retry(
-        total=5,
+        total=1,
         backoff_factor=1,
         status_forcelist=[400, 500, 502, 503, 504],
     )
@@ -63,12 +63,16 @@ def main():
     session.mount('https://', HTTPAdapter(max_retries=retries))
     for page_id in range(args.start_page, args.end_page):
         try:
-            genre_url = f'https://tululu.org/l55/{page_id}'
+            genre_url = f'https://tululu.org1/l55/{page_id}'
             response = session.get(genre_url)
             response.raise_for_status()
             check_for_redirect(response)
         except requests.HTTPError:
-            print('Txt file is absent', file=sys.stderr)
+            print('Page does not exists', file=sys.stderr)
+        except requests.ConnectionError:
+            print(f'Can not connect to {genre_url}')
+            break
+
         soup = BeautifulSoup(response.text, 'lxml')
         tululu_books = soup.select_one('#content').select('div.bookimage')
         for tululu_book in tululu_books:
