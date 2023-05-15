@@ -61,8 +61,8 @@ def main():
     )
     folder = Path(args.dest_folder).resolve()
     session.mount('https://', HTTPAdapter(max_retries=retries))
-    for i in range(args.start_page, args.end_page):
-        genre_url = f'https://tululu.org/l55/{i}'
+    for page_id in range(args.start_page, args.end_page):
+        genre_url = f'https://tululu.org/l55/{page_id}'
         response = session.get(genre_url)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'lxml')
