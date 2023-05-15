@@ -20,7 +20,7 @@ python download_books.py --start_id 20 --end_id 30
 How to download science fiction books:
 
 ```python
-python parse_tululu_category --start_page 20 --end_page 30  --dest_folder r:\5 --json_path r:\6 --skip_imgs False --skip_txt False
+python parse_tululu_category.py --start_page 20 --end_page 30  --dest_folder r:\5 --json_path r:\6 --skip_imgs False --skip_txt False
 ```
 
 ### Project Goals ###
