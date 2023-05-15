@@ -55,7 +55,7 @@ def main():
 
     session = requests.Session()
     retries = Retry(
-        total=1,
+        total=5,
         backoff_factor=1,
         status_forcelist=[400, 500, 502, 503, 504],
     )
@@ -63,7 +63,7 @@ def main():
     session.mount('https://', HTTPAdapter(max_retries=retries))
     for page_id in range(args.start_page, args.end_page):
         try:
-            genre_url = f'https://tululu.org1/l55/{page_id}'
+            genre_url = f'https://tululu.org/l55/{page_id}'
             response = session.get(genre_url)
             response.raise_for_status()
             check_for_redirect(response)

@@ -54,14 +54,12 @@ def parse_book_page(html, url):
     image_url = urljoin(url, image_soup.img['src'])
 
     comments_soup = soup.select('div.texts')
-    comments = []
-    for comment_soup in comments_soup:
-        comments.append(comment_soup.select_one('span.black').text)
+    comments = [
+        comment.select_one('span.black').text for comment in comments_soup
+    ]
 
     genres_soup = soup.select_one('span.d_book').select('a')
-    genres = []
-    for genre_soup in genres_soup:
-        genres.append(genre_soup.text)
+    genres = [genre.text for genre in genres_soup]
     return title, author, image_url, comments, genres
 
 
