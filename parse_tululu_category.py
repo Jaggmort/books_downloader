@@ -94,11 +94,12 @@ def main():
                 )
                 title, author, image_url, comments, genres = book_page_parsed
                 if not args.skip_txt:
-                    download_txt(txt_url,
-                                 params,
-                                 f'{book_id}. {title}.txt',
-                                 os.path.join(folder, 'Books')
-                                 )
+                    download_txt(
+                        txt_url,
+                        params,
+                        f'{book_id}. {title}.txt',
+                        os.path.join(folder, 'Books')
+                    )
                 if not args.skip_imgs:
                     download_image(image_url, os.path.join(folder, 'Images'))
 
