@@ -61,6 +61,7 @@ def main():
     )
     folder = Path(args.dest_folder).resolve()
     session.mount('https://', HTTPAdapter(max_retries=retries))
+    books = []
     for page_id in range(args.start_page, args.end_page):
         try:
             genre_url = f'https://tululu.org/l55/{page_id}'
@@ -103,7 +104,7 @@ def main():
                 if not args.skip_imgs:
                     download_image(image_url, os.path.join(folder, 'Images'))
 
-                books = {
+                book = {
                     'title': title,
                     'author': author,
                     'img_src': f'images/{book_id}.jpg',
@@ -111,20 +112,19 @@ def main():
                     'comments': [comments],
                     'geners': [genres]
                 }
-                json_path = folder
-                if args.json_path:
-                    json_path = os.path.join(args.json_path)
-                create_directory(json_path)
-                with open(f'{json_path}/books.json',
-                          'a',
-                          encoding='utf8'
-                          ) as my_file:
-                    json.dump(books, my_file, ensure_ascii=False)
+                books.append(book)
 
             except requests.HTTPError:
                 print('Txt file is absent', file=sys.stderr)
             except requests.ConnectionError:
                 print("Connection error", file=sys.stderr)
+
+    json_path = folder
+    if args.json_path:
+        json_path = os.path.join(args.json_path)
+    create_directory(json_path)
+    with open(f'{json_path}/books.json', 'w', encoding='utf8') as my_file:
+        json.dump(books, my_file, ensure_ascii=False)
 
 
 if __name__ == '__main__':
