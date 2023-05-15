@@ -24,7 +24,6 @@ def check_for_redirect(response_history):
 def download_txt(url, params, filename, folder='Books/'):
     create_directory(folder)
     correct_filename = sanitize_filename(filename)
-    print(filename)
     response = requests.get(url, params=params)
     response.raise_for_status()
     filename = os.path.join(folder, correct_filename)
