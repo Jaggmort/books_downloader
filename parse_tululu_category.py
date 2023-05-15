@@ -39,15 +39,13 @@ def main():
     )
     parser.add_argument(
         '--skip_imgs',
-        type=bool,
+        action='store_true',
         help='Игнорировать изображения?',
-        default=False,
     )
     parser.add_argument(
         '--skip_txt',
-        type=bool,
+        action='store_true',
         help='Игнорировать txt-файлы',
-        default=False,
     )
     parser.add_argument(
         '--json_path',
