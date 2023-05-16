@@ -57,7 +57,7 @@ def main():
     retries = Retry(
         total=5,
         backoff_factor=1,
-        status_forcelist=[400, 500, 502, 503, 504],
+        status_forcelist=[400, 404, 500, 502, 503, 504],
     )
     folder = Path(args.dest_folder).resolve()
     session.mount('https://', HTTPAdapter(max_retries=retries))
@@ -70,9 +70,10 @@ def main():
             check_for_redirect(response)
         except requests.HTTPError:
             print('Page does not exists', file=sys.stderr)
+            continue
         except requests.ConnectionError:
             print(f'Can not connect to {genre_url}')
-            break
+            continue
 
         soup = BeautifulSoup(response.text, 'lxml')
         tululu_books = soup.select_one('#content').select('div.bookimage')
