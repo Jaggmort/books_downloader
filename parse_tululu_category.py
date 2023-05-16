@@ -124,8 +124,8 @@ def main():
     if args.json_path:
         json_path = os.path.join(args.json_path)
     create_directory(json_path)
-    with open(f'{json_path}/books.json', 'w', encoding='utf8') as my_file:
-        json.dump(books, my_file, ensure_ascii=False)
+    with open(f'{json_path}/books.json', 'w', encoding='utf8') as file:
+        json.dump(books, file, ensure_ascii=False)
 
 
 if __name__ == '__main__':
