@@ -1,12 +1,12 @@
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from livereload import Server
 import warnings
 import os
 from dotenv import load_dotenv
 import json
 
 
-def main():
+def on_reload():
     load_dotenv()
     warnings.filterwarnings("ignore")
     json_path = os.environ.get('JSON_PATH')
@@ -14,12 +14,11 @@ def main():
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
     )
-
     template = env.get_template('template.html')
 
     with open(json_path, 'r', encoding='utf8') as file:
         books = json.load(file)
-    print(books[0].keys())
+
     for book in books:
         if not os.path.isfile(book['img_src']):
             book['img_src'] = 'no_file'
@@ -30,8 +29,12 @@ def main():
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
 
-    server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
-    server.serve_forever()
+
+def main():
+    on_reload()
+    server = Server()
+    server.watch('template.html', on_reload)
+    server.serve(root='.')
 
 
 if __name__ == '__main__':
