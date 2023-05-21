@@ -4,6 +4,7 @@ import warnings
 import os
 from dotenv import load_dotenv
 import json
+from more_itertools import chunked
 
 
 def on_reload():
@@ -22,8 +23,10 @@ def on_reload():
     for book in books:
         if not os.path.isfile(book['img_src']):
             book['img_src'] = 'no_file'
+
+    chunked_books = list(chunked(books, 2))
     rendered_page = template.render(
-        books=books,
+        books=chunked_books,
     )
 
     with open('index.html', 'w', encoding="utf8") as file:
