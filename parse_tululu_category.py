@@ -111,7 +111,7 @@ def main():
                     'img_src': f'Images/{book_id}.jpg',
                     'book_path': f'Books/{book_id}. {title}.txt',
                     'comments': [comments],
-                    'geners': [genres]
+                    'genres': [genres]
                 }
                 books.append(book)
 
