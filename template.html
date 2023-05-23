@@ -14,9 +14,9 @@
             {% for bk in book %}
               <div class="col" style="max-width: 540px;">         
                 {% if bk.img_src=='no_file' %}
-                  <img src='Images/nopic.gif' class="card-img" alt={{bk.title}}> 
+                  <img src='Images/nopic.gif' class="card-img" alt='{{bk.title}}'> 
                 {% else %}
-                  <img src={{bk.img_src}} class="card-img" alt={{bk.title}}>
+                  <img src={{bk.img_src}} class="card-img" alt='{{bk.title}}'>
                 {% endif %}
               </div>                            
               <div class="col">                                                
