@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,8 +7,8 @@
     <title>Book catalogue</title>
   </head>
   <body>
-    <div class="container">    
-      <nav class='margin-left-5' aria-label="Page navigation example">
+    <div class="container mt-5">    
+      <nav aria-label="Page navigation example">
         <ul class="pagination">
           {% if index ==0 %}
             <li class="page-item disabled">
@@ -55,7 +55,12 @@
               <div class="col">                                                
                 <div class="card-body">
                   <h5 class="card-title">{{bk.title}}</h5>
-                  <p class="card-text">{{bk.author}}</p>
+                  <h5 class="card-text">{{bk.author}}</h5>
+                  <h6>
+                    {% for genre in bk.geners[0] %}
+                      {{genre}}
+                    {% endfor %}
+                  </h6>                  
                   <a  target="_blank" rel="noopener noreferrer" href='../{{bk.book_path|urlencode}}'>Читать</a>
                 </div>   
               </div>                                                                                   
