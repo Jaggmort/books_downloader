@@ -12,20 +12,20 @@
         <div class="card mb-3">
           <div class="row no-gutters">
             {% for bk in book %}
-              <div class="col" style="max-width: 540px;">
+              <div class="col" style="max-width: 540px;">         
                 {% if bk.img_src=='no_file' %}
                   <img src='Images/nopic.gif' class="card-img" alt={{bk.title}}> 
                 {% else %}
                   <img src={{bk.img_src}} class="card-img" alt={{bk.title}}>
                 {% endif %}
-              </div>         
-              <div class="col">
+              </div>                            
+              <div class="col">                                                
                 <div class="card-body">
                   <h5 class="card-title">{{bk.title}}</h5>
                   <p class="card-text">{{bk.author}}</p>
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  <a  target="_blank" rel="noopener noreferrer" href={{bk.book_path|urlencode}}>Читать</a>
                 </div>   
-              </div>                                                                          
+              </div>                                                                                   
             {% endfor %}
           </div>
         </div>

@@ -67,7 +67,7 @@ def main():
             genre_url = f'https://tululu.org/l55/{page_id}'
             response = session.get(genre_url)
             response.raise_for_status()
-            check_for_redirect(response)
+            check_for_redirect(response.history)
         except requests.HTTPError:
             print('Page does not exists', file=sys.stderr)
             continue
@@ -108,8 +108,8 @@ def main():
                 book = {
                     'title': title,
                     'author': author,
-                    'img_src': f'images/{book_id}.jpg',
-                    'book_path': f'books/{title.strip()}.txt',
+                    'img_src': f'Images/{book_id}.jpg',
+                    'book_path': f'Books/{book_id}. {title}.txt',
                     'comments': [comments],
                     'geners': [genres]
                 }
