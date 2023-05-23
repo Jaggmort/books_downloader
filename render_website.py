@@ -5,6 +5,13 @@ import os
 from dotenv import load_dotenv
 import json
 from more_itertools import chunked
+import pathlib
+from pathlib import Path
+
+
+def create_directory(directory):
+    current_directory = os.path.join(pathlib.Path().resolve(), directory)
+    Path(current_directory).mkdir(parents=True, exist_ok=True)
 
 
 def on_reload():
@@ -16,6 +23,7 @@ def on_reload():
         autoescape=select_autoescape(['html', 'xml'])
     )
     template = env.get_template('template.html')
+    create_directory('pages')
 
     with open(json_path, 'r', encoding='utf8') as file:
         books = json.load(file)
@@ -25,12 +33,16 @@ def on_reload():
             book['img_src'] = 'no_file'
 
     chunked_books = list(chunked(books, 2))
-    rendered_page = template.render(
-        books=chunked_books,
-    )
-
-    with open('index.html', 'w', encoding="utf8") as file:
-        file.write(rendered_page)
+    books_on_pages = list(chunked(chunked_books, 10))
+    for page_index, books_on_page in enumerate(books_on_pages):
+        rendered_page = template.render(
+            books=books_on_page,
+        )
+        with open(
+            f'./pages/index{page_index}.html',
+            'w', encoding="utf8"
+        ) as file:
+            file.write(rendered_page)
 
 
 def main():
