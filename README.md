@@ -2,6 +2,8 @@
 
 Download books from [tululu.org](https://tululu.org)
 
+[Site Example](https://jaggmort.github.io/books_downloader/static/pages/index1.html)
+
 ### How to install ###
 
 Python3 should be already installed. Then use pip (or pip3, if there is a conflict with Python2) to install dependencies:
