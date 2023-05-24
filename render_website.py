@@ -37,12 +37,12 @@ def on_reload():
     chunked_books = list(chunked(books, books_per_row))
     rows_per_page = 10
     books_on_pages = list(chunked(chunked_books, rows_per_page))
-    pages = len(books_on_pages)
+    number_of_pages = len(books_on_pages)
     for page_index, books_on_page in enumerate(books_on_pages):
         rendered_page = template.render(
             books=books_on_page,
             index=page_index,
-            pages=pages
+            number_of_pages=number_of_pages
         )
         with open(
             f'./static/pages/index{page_index}.html',
