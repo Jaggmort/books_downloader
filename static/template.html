@@ -10,7 +10,7 @@
     <div class='container mt-5'>    
       <nav aria-label='Page navigation example'>
         <ul class='pagination'>
-          {% if index ==1 %}
+          {% if index == 1 %}
             <li class='page-item disabled'>
               <a class='page-link' tabindex='-1' href='index{{index-1}}.html'>Previous</a>
             </li>
@@ -19,8 +19,8 @@
             <a class='page-link' href='index{{index-1}}.html'>Previous</a>
           </li>          
           {% endif %}
-          {% for page in range(1, number_of_pages+1) %}
-            {% if page==index %}
+          {% for page in range(1, number_of_pages + 1) %}
+            {% if page == index %}
               <li class='page-item active' aria-current='page'>
                 <a class='page-link' href='index{{page}}.html'>{{page}}<span class='sr-only'>(current)</span></a>
               </li>
@@ -30,7 +30,7 @@
               </li>            
             {% endif %}
           {% endfor %}
-          {% if index==number_of_pages-1 %}
+          {% if index == number_of_pages %}
             <li class='page-item disabled'>
               <a class='page-link' href='index{{index+1}}.html'>Previous</a>
             </li>
@@ -46,7 +46,7 @@
           <div class='row no-gutters'>                            
             {% for bk in book %}      
               <div class='col ' style='max-width: 200px;'>         
-                {% if bk.img_src=='no_file' %}
+                {% if bk.img_src == 'no_file' %}
                   <img src='/media/images/nopic.gif' class='card-img' alt='{{bk.title}}'> 
                 {% else %}
                   <img src=/{{bk.img_src}} class='card-img' alt='{{bk.title}}'>
@@ -63,11 +63,10 @@
                   </h6>                  
                   <a  target='_blank' rel='noopener noreferrer' href='/{{bk.book_path|urlencode}}'>Читать</a>
                 </div>
-              </div>               
-                                                                                                                
+              </div>                                                                                              
             {% endfor %}                           
           </div>  
-          </div> 
+        </div> 
       {% endfor %}
     </div>     
     <link rel='icon' type='image/png' href='/static/favicon.ico' sizes>    
