@@ -38,7 +38,7 @@ def on_reload():
     rows_per_page = 10
     books_on_pages = list(chunked(chunked_books, rows_per_page))
     number_of_pages = len(books_on_pages)
-    for page_index, books_on_page in enumerate(books_on_pages):
+    for page_index, books_on_page in enumerate(books_on_pages, start=1):
         rendered_page = template.render(
             books=books_on_page,
             index=page_index,
