@@ -23,5 +23,15 @@ How to download science fiction books:
 python parse_tululu_category.py --start_page 20 --end_page 30  --dest_folder r:\5 --json_path r:\6 --skip_imgs False --skip_txt False
 ```
 
+How to get access to books through web:
+
+```python
+python render_website.py
+```
+
+U will get information in console 
+```[I 230523 20:48:40 server:335] Serving on http://127.0.0.1:5500```
+Now u can access to books at ```http://127.0.0.1:5500/pages/index0.html```
+
 ### Project Goals ###
 The code is written for educational purposes on online-course for web-developers [dvmn.org](dvmn.org).
