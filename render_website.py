@@ -22,9 +22,9 @@ def on_reload():
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
     )
-    template = env.get_template('template.html')
-    create_directory('pages')
-
+    template = env.get_template('static/template.html')
+    create_directory('static/pages')
+    json_path = os.path.join('media/', json_path)
     with open(json_path, 'r', encoding='utf8') as file:
         books = json.load(file)
 
@@ -42,7 +42,7 @@ def on_reload():
             pages=pages
         )
         with open(
-            f'./pages/index{page_index}.html',
+            f'./static/pages/index{page_index}.html',
             'w', encoding="utf8"
         ) as file:
             file.write(rendered_page)

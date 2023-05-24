@@ -47,9 +47,9 @@
             {% for bk in book %}      
               <div class="col " style="max-width: 200px;">         
                 {% if bk.img_src=='no_file' %}
-                  <img src='../Images/nopic.gif' class="card-img" alt='{{bk.title}}'> 
+                  <img src='/media/images/nopic.gif' class="card-img" alt='{{bk.title}}'> 
                 {% else %}
-                  <img src=../{{bk.img_src}} class="card-img" alt='{{bk.title}}'>
+                  <img src=/{{bk.img_src}} class="card-img" alt='{{bk.title}}'>
                 {% endif %}
               </div>                            
               <div class="col">                                                
@@ -61,7 +61,7 @@
                       {{genre}},
                     {% endfor %}
                   </h6>                  
-                  <a  target="_blank" rel="noopener noreferrer" href='../{{bk.book_path|urlencode}}'>Читать</a>
+                  <a  target="_blank" rel="noopener noreferrer" href='/{{bk.book_path|urlencode}}'>Читать</a>
                 </div>
               </div>               
                                                                                                                 
@@ -70,7 +70,7 @@
           </div> 
       {% endfor %}
     </div>     
-    <link rel="icon" type="image/png" href="favicon.ico">    
+    <link rel="icon" type="image/png" href="/static/favicon.ico" sizes>    
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

@@ -100,16 +100,17 @@ def main():
                         txt_url,
                         params,
                         f'{book_id}. {title}.txt',
-                        os.path.join(folder, 'Books')
+                        os.path.join(folder, 'media/books')
                     )
                 if not args.skip_imgs:
-                    download_image(image_url, os.path.join(folder, 'Images'))
+                    download_image(image_url, os.path.join(folder,
+                                                           'media/images'))
 
                 book = {
                     'title': title,
                     'author': author,
-                    'img_src': f'Images/{book_id}.jpg',
-                    'book_path': f'Books/{book_id}. {title}.txt',
+                    'img_src': f'media/images/{book_id}.jpg',
+                    'book_path': f'media/books/{book_id}. {title}.txt',
                     'comments': [comments],
                     'genres': [genres]
                 }
@@ -123,6 +124,7 @@ def main():
     json_path = folder
     if args.json_path:
         json_path = os.path.join(args.json_path)
+    json_path = os.path.join(folder, 'media/')
     create_directory(json_path)
     with open(f'{json_path}/books.json', 'w', encoding='utf8') as file:
         json.dump(books, file, ensure_ascii=False)
