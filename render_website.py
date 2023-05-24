@@ -33,8 +33,10 @@ def on_reload():
         if not os.path.isfile(book['img_src']):
             book['img_src'] = 'no_file'
 
-    chunked_books = list(chunked(books, 2))
-    books_on_pages = list(chunked(chunked_books, 10))
+    books_per_row = 2
+    chunked_books = list(chunked(books, books_per_row))
+    rows_per_page = 10
+    books_on_pages = list(chunked(chunked_books, rows_per_page))
     pages = len(books_on_pages)
     for page_index, books_on_page in enumerate(books_on_pages):
         rendered_page = template.render(
