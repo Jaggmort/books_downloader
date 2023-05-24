@@ -49,7 +49,7 @@
                 {% if bk.img_src == 'no_file' %}
                   <img src='/media/images/nopic.gif' class='card-img' alt='{{bk.title}}'> 
                 {% else %}
-                  <img src=/{{bk.img_src}} class='card-img' alt='{{bk.title}}'>
+                  <img src=/{{bk.img_src|urlencode}} class='card-img' alt='{{bk.title}}'>
                 {% endif %}
               </div>                            
               <div class='col'>                                                
