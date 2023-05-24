@@ -2,7 +2,7 @@
 
 Download books from [tululu.org](https://tululu.org)
 
-(Site Example)https://jaggmort.github.io/books_downloader/static/pages/index1.html
+[Site Example](https://jaggmort.github.io/books_downloader/static/pages/index1.html)
 
 ### How to install ###
 
