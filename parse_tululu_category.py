@@ -79,7 +79,7 @@ def main():
         tululu_books = soup.select_one('#content').select('div.bookimage')
         for tululu_book in tululu_books:
             try:
-                book_id = tululu_book.a["href"][2:-1]
+                book_id = tululu_book.a['href'][2:-1]
                 params = {'id': f'{book_id}'}
                 txt_url = 'https://tululu.org/txt.php'
                 response = session.get(txt_url, params=params)
@@ -119,7 +119,7 @@ def main():
             except requests.HTTPError:
                 print('Txt file is absent', file=sys.stderr)
             except requests.ConnectionError:
-                print("Connection error", file=sys.stderr)
+                print('Connection error', file=sys.stderr)
 
     json_path = folder
     if args.json_path:

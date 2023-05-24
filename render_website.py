@@ -17,7 +17,7 @@ def create_directory(directory):
 
 def on_reload():
     load_dotenv()
-    warnings.filterwarnings("ignore")
+    warnings.filterwarnings('ignore')
     json_path = os.environ.get('JSON_PATH')
     env = Environment(
         loader=FileSystemLoader('.'),
@@ -46,7 +46,7 @@ def on_reload():
         )
         with open(
             f'./static/pages/index{page_index}.html',
-            'w', encoding="utf8"
+            'w', encoding='utf8'
         ) as file:
             file.write(rendered_page)
 
