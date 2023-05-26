@@ -14,11 +14,6 @@ pip install -r requirements.txt
 
 ### How to use ###
 
-How to download books:
-```python
-python download_books.py --start_id 20 --end_id 30
-```
-
 How to download science fiction books:
 
 ```python
@@ -33,7 +28,7 @@ python render_website.py
 
 U will get information in console 
 ```[I 230523 20:48:40 server:335] Serving on http://127.0.0.1:5500```
-Now u can access to books at ```http://127.0.0.1:5500/pages/index0.html```
+Now u can access to books at ```http://127.0.0.1:5500/static/pages/index1.html```
 
 ### Project Goals ###
 The code is written for educational purposes on online-course for web-developers [dvmn.org](dvmn.org).
