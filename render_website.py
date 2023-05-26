@@ -23,7 +23,7 @@ def on_reload():
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
     )
-    template = env.get_template('static/template.html')
+    template = env.get_template('templates/template.html')
     create_directory('static/pages')
     json_path = os.path.join('media/', json_path)
     with open(json_path, 'r', encoding='utf8') as file:
